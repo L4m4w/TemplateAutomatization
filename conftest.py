@@ -1,7 +1,8 @@
 from selene import browser, Config
 from selenium.webdriver import ChromeOptions
+import pytest
 
-def setup_browser():
+def init_web_driver():
     options = ChromeOptions()
     options.add_argument("--headless")  # Для CI
     browser.set_driver(Config(
@@ -9,3 +10,21 @@ def setup_browser():
         timeout=10,
         base_url="https://demoqa.com"  # Пример базового URL
     ))
+
+def init_android_driver():
+    pass
+
+
+def pytest_addoption(parser):
+    parser.addoption("--platform", action="store", default="web")
+
+@pytest.fixture(scope='session')
+def platform(request):
+    return request.config.getoption("--platform")
+
+@pytest.fixture
+def driver(platform):
+    if platform == "web":
+        yield init_web_driver()
+    elif platform == "android":
+        yield init_android_driver()
