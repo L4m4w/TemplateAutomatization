@@ -2,6 +2,7 @@ UI https://trello.com/
 API https://developer.atlassian.com/cloud/trello/
 
 TO-DO
+[] Устойчивые локаторы
 [] Ленивые элементы с улучшенным описанием для лучших отчетов
 [] Паттерн "Wait for" для более стабильных тестов
 [] Кастомные условия ожидания - расширение встроенных expected conditions
