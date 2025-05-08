@@ -3,9 +3,6 @@ from typing import Callable
 import pytest
 from selene import have, be, Browser, Config
 from selene.support.shared import browser
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
 
 from tests.api.web.conftest import SupportedBrowsers
 
