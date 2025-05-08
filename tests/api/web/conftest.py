@@ -18,11 +18,13 @@ def browser_management():
 
     browser.quit()
 
+SupportedBrowsers = Literal['chrome', 'firefox']
+
 @pytest.fixture(scope='function')
 def with_new_browser():
     future_browsers = []
 
-    def new_browser(name: Literal['chrome', 'firefox']='chrome'):
+    def new_browser(name: SupportedBrowsers = 'chrome'):
         nonlocal future_browsers
         if name == 'chrome':
             future_browser = (

@@ -1,3 +1,5 @@
+from typing import Callable
+
 import pytest
 from selene import have, be, Browser, Config
 from selene.support.shared import browser
@@ -5,16 +7,17 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
+from tests.api.web.conftest import SupportedBrowsers
 
 
 class TestLogin:
     @pytest.mark.platform("web")
     @pytest.mark.platform("mobile")
-    def test_something(self, with_new_browser):
+    def test_something(self, with_new_browser: Callable[[SupportedBrowsers], Browser] | Callable[..., Browser]):
         browser.open('https://gfgf')
         browser.element('#new-todo').should(be.blank).type('a').press_enter()
 
-        browser2 = with_new_browser()
+        browser2 = with_new_browser(123)
         browser2.open('https://gfgf')
         browser2.element('#new-todo').should(be.blank).type('a').press_enter()
 
