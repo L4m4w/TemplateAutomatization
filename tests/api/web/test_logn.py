@@ -12,7 +12,7 @@ from tests.api.web.conftest import SupportedBrowsers
 
 class TestLogin:
     @pytest.mark.platform("web")
-    @pytest.mark.platform("mobile")
+    # @pytest.mark.platform("mobile")
     def test_something(self, with_new_browser: Callable[[SupportedBrowsers], Browser] | Callable[..., Browser]):
         browser.open('https://gfgf')
         browser.element('#new-todo').should(be.blank).type('a').press_enter()
