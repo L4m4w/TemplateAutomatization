@@ -1,4 +1,6 @@
 from selene import by, be
+from selene.support.conditions import have
+
 from conftest import browser
 
 class LoginPage:

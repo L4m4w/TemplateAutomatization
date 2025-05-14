@@ -1,10 +1,10 @@
 from typing import Callable
 
 import pytest
-from selene import have, be, Browser, Config
+from selene import be, Browser
 from selene.support.shared import browser
 
-from tests.api.web.conftest import SupportedBrowsers
+from tests.e2e.web.conftest import SupportedBrowsers
 
 
 class TestLogin:
