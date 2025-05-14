@@ -8,7 +8,7 @@ def init_web_driver():
     browser.set_driver(Config(
         driver_options=options,
         timeout=10,
-        base_url="https://demoqa.com"  # Пример базового URL
+        base_url="https://trello.com/"
     ))
 
 def init_android_driver():

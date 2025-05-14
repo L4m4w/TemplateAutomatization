@@ -1,9 +1,10 @@
 from selene import by, be
 from selene.support.conditions import have
+from pages.base_page import BasePage
 
-from conftest import browser
+from selene import browser
 
-class LoginPage:
+class LoginPage(BasePage):
     def open(self):
         browser.open("/login")
         return self
