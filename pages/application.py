@@ -5,8 +5,8 @@ from pages.workspace_home_page import WorkspaceHomePage
 
 class Application:
     def __init__(self):
-        self.login_page = LoginPage()
         self.workspace_home_page = WorkspaceHomePage()
+        self.login_page = LoginPage()
 
     def open(self):
         browser.open('/')

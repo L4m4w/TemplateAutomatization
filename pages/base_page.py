@@ -6,6 +6,6 @@ class BasePage(ABC):
     def __init__(self):
         ...
 
-    @abstractmethod
-    def open(self):
-        ...
+    # @abstractmethod
+    # def open(self):
+    #     ...
