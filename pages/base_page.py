@@ -6,6 +6,6 @@ class BasePage(ABC):
     def __init__(self):
         ...
 
-    # @abstractmethod
-    # def open(self):
-    #     ...
+    def open(self):
+        browser.open(self.PAGE_URL)
+        return self

@@ -5,6 +5,9 @@ from pages.base_page import BasePage
 from selene import browser
 
 class LoginPage(BasePage):
+
+    PAGE_URL = 'login'
+
     def open(self):
         browser.open("login")
         return self
