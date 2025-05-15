@@ -6,7 +6,7 @@ from selene import browser
 
 class LoginPage(BasePage):
     def open(self):
-        browser.open("/login")
+        browser.open("login")
         return self
 
     def login(self, email, password):

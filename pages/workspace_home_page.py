@@ -6,10 +6,9 @@ class WorkspaceHomePage(BasePage):
 
     PAGE_URL = 'w/tacoco129/home'
 
-    @staticmethod
-    def open(url = PAGE_URL):
+    def open(self, url = PAGE_URL):
         browser.open(url)
-        # return self
+        return self
 
     @property
     def edit_workspace_name_button(self):
