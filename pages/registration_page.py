@@ -6,6 +6,11 @@ class RegistrationPage(BasePage):
 
     PAGE_URL = 'signup'
 
+    # def __init__(self):
+
+        # self.email_signup_button = browser.element('#signup-submit')
+
+
     class EmailSignup:
 
         email = 'evgne1334@outlook.com'
@@ -14,9 +19,10 @@ class RegistrationPage(BasePage):
         def email_signup_button(self):
             return browser.element('#signup-submit')
 
-        def enter_email(self, email = email):
+        @staticmethod
+        def enter_email(email = email):
             browser.element('#email').type(email)
-            return self
+
 
     class GoogleSignup:
 
@@ -55,4 +61,11 @@ class RegistrationPage(BasePage):
     def privacy_policy_redirect_button(self):
         return browser.element(
             '#form-sign-up > div.css-1gu5jds > p > a:nth-child(2)')
+
+    email_signup = EmailSignup()
+    google_signup = GoogleSignup()
+    microsoft_signup = MicrosoftSignup()
+    apple_signup = AppleSignup()
+    slack_signup = SlackSignup()
+
 
