@@ -14,14 +14,22 @@ class RegistrationPage(BasePage):
     class EmailSignup:
 
         email = 'evgne1334@outlook.com'
+        password = 'j.}qj2g2V}>38^6'
 
         @property
         def email_signup_button(self):
             return browser.element('#signup-submit')
 
-        @staticmethod
-        def enter_email(email = email):
+        @property
+        def email_signup_continue_button(self):
+            return browser.element('#login-submit')
+
+        def enter_email(self, email = email):
             browser.element('#email').type(email)
+
+        def enter_password(self, password=password):
+            browser.element('#email').type(password)
+
 
 
     class GoogleSignup:
