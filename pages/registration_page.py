@@ -1,0 +1,58 @@
+from selene import browser
+
+from pages.base_page import BasePage
+
+class RegistrationPage(BasePage):
+
+    PAGE_URL = 'signup'
+
+    class EmailSignup:
+
+        email = 'evgne1334@outlook.com'
+
+        @property
+        def email_signup_button(self):
+            return browser.element('#signup-submit')
+
+        def enter_email(self, email = email):
+            browser.element('#email').type(email)
+            return self
+
+    class GoogleSignup:
+
+        @property
+        def google_signup_button(self):
+            return browser.element('#google-auth-button')
+
+    class MicrosoftSignup:
+
+        @property
+        def microsoft_signup_button(self):
+            return browser.element('#microsoft-auth-button')
+
+    class AppleSignup:
+
+        @property
+        def apple_signup_button(self):
+            return browser.element('#apple-auth-button')
+
+    class SlackSignup:
+
+        @property
+        def slack_signup_button(self):
+            return browser.element('#slack-auth-button')
+
+    @property
+    def login_redirect_by_already_have_an_account(self):
+        return browser.element('#already-have-an-account')
+
+    @property
+    def cloud_terms_of_service_redirect_button(self):
+        return browser.element(
+            '#form-sign-up > div.css-1gu5jds > p > a:nth-child(1) > span._19itglyw._vchhusvi._r06hglyw._1e0c1nu9._o5721q9c._s7n4jp4b._kqswh2mm._152ttb3r > svg')
+
+    @property
+    def privacy_policy_redirect_button(self):
+        return browser.element(
+            '#form-sign-up > div.css-1gu5jds > p > a:nth-child(2)')
+
