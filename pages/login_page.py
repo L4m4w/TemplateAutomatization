@@ -8,10 +8,6 @@ class LoginPage(BasePage):
 
     PAGE_URL = 'login'
 
-    def open(self):
-        browser.open("login")
-        return self
-
     def login(self, email, password):
         browser.element("#userName").type(email)
         browser.element("#password").type(password)
