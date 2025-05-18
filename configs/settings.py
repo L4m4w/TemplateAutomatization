@@ -16,6 +16,7 @@ class UserData(BaseSettings):
     email : str
     password : str
     username : str
+    base_url : str
 
     class Config:
         env_file = PROJECT_ROOT / ".env.local"
