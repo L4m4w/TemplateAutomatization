@@ -1,8 +1,9 @@
 import time
-
 from selene import browser
 
 from pages.base_page import BasePage
+from configs.settings import user_data
+
 
 class RegistrationPage(BasePage):
 
@@ -15,8 +16,8 @@ class RegistrationPage(BasePage):
 
     class EmailSignup:
 
-        email = 'evgne1334@outlook.com'
-        password = 'j.}qj2g2V}>38^6'
+        email = user_data.email
+        password = user_data.password
 
         @property
         def email_signup_button(self):
