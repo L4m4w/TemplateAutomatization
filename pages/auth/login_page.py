@@ -1,11 +1,14 @@
 import time
 
-from selene import by, be
+from selene import by, be, browser
 from selene.support.conditions import have
+
 from pages.base_page import BasePage
+from configs.settings import user_data
+
 from selenium.webdriver.remote.webelement import WebElement
 
-from selene import browser
+
 
 class LoginPage(BasePage):
 
@@ -22,8 +25,8 @@ class LoginPage(BasePage):
 
     class EmailLogin:
 
-        email = 'evgne1334@outlook.com'
-        password = 'j.}qj2g2V}>38^6'
+        email = user_data.email
+        password = user_data.password
 
         @property
         def email_login_button(self) -> WebElement:

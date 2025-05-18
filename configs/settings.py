@@ -15,6 +15,7 @@ PROJECT_ROOT = find_project_root()
 class UserData(BaseSettings):
     email : str
     password : str
+    username : str
 
     class Config:
         env_file = PROJECT_ROOT / ".env.local"
