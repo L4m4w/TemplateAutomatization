@@ -1,6 +1,6 @@
 from selene import browser
-from pages.login_page import LoginPage
-from pages.registration_page import RegistrationPage
+from pages.auth.login_page import LoginPage
+from pages.auth.registration_page import RegistrationPage
 from pages.workspace_home_page import WorkspaceHomePage
 # from profile_page import ProfilePage
 
