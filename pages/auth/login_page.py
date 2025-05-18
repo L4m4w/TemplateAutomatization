@@ -1,6 +1,9 @@
+import time
+
 from selene import by, be
 from selene.support.conditions import have
 from pages.base_page import BasePage
+from selenium.webdriver.remote.webelement import WebElement
 
 from selene import browser
 
@@ -23,7 +26,7 @@ class LoginPage(BasePage):
         password = 'j.}qj2g2V}>38^6'
 
         @property
-        def email_login_button(self):
+        def email_login_button(self) -> WebElement:
             return browser.element('#login-submit')
 
         @property
@@ -34,6 +37,6 @@ class LoginPage(BasePage):
             browser.element('#email').type(email)
 
         def enter_password(self, password=password):
-            browser.element('#email').type(password)
+            browser.element('#password').type(password)
 
     email_login = EmailLogin()

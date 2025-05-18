@@ -1,3 +1,5 @@
+import time
+
 from selene import browser
 
 from pages.base_page import BasePage
@@ -30,6 +32,9 @@ class RegistrationPage(BasePage):
         def enter_password(self, password=password):
             browser.element('#email').type(password)
 
+        def process_captcha(self):
+            ...
+
 
 
     class GoogleSignup:
@@ -56,6 +61,12 @@ class RegistrationPage(BasePage):
         def slack_signup_button(self):
             return browser.element('#slack-auth-button')
 
+    email_signup = EmailSignup()
+    google_signup = GoogleSignup()
+    microsoft_signup = MicrosoftSignup()
+    apple_signup = AppleSignup()
+    slack_signup = SlackSignup()
+
     @property
     def login_redirect_by_already_have_an_account(self):
         return browser.element('#already-have-an-account')
@@ -69,11 +80,3 @@ class RegistrationPage(BasePage):
     def privacy_policy_redirect_button(self):
         return browser.element(
             '#form-sign-up > div.css-1gu5jds > p > a:nth-child(2)')
-
-    email_signup = EmailSignup()
-    google_signup = GoogleSignup()
-    microsoft_signup = MicrosoftSignup()
-    apple_signup = AppleSignup()
-    slack_signup = SlackSignup()
-
-
