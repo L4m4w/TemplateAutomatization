@@ -17,7 +17,7 @@ class UserData(BaseSettings):
     password : str
 
     class Config:
-        env_file = PROJECT_ROOT / ".env"
+        env_file = PROJECT_ROOT / ".env.local"
         env_prefix = "USER_DATA_"
 
 class TestSettings(BaseSettings):
