@@ -13,7 +13,8 @@ from webdriver_manager.firefox import GeckoDriverManager
 @pytest.fixture(scope='function', autouse=True)
 def browser_management():
     browser.config.timeout = 7.0
-    browser.config.base_url = "https://trello.com/"
+    # browser.config.base_url = "https://trello.com/"
+    browser.config.base_url = "https://github.com/"
 
     browser.config.driver = webdriver.Chrome()
 

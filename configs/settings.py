@@ -17,6 +17,7 @@ class UserData(BaseSettings):
     password : str
     username : str
     base_url : str
+    trello_token : str
 
     class Config:
         env_file = PROJECT_ROOT / ".env.local"
