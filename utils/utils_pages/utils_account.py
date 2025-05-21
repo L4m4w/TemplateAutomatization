@@ -23,9 +23,9 @@ def get_cookie_api(acc_login: str, acc_password: str) -> str:
 def login_ui(acc_login: str, acc_password: str):
     browser.open(BASE_URL + "login")
     # Authorization: Bearer TRELLO_TOKEN
-    browser.element("#Email").send_keys(acc_login)
-    browser.element("#Password").send_keys(acc_password).press_enter()
-    # browser.element(".account").should(have.text(LOGIN))
+    browser.element("#login_field").send_keys(acc_login)
+    browser.element("#password").send_keys(acc_password).press_enter()
+    browser.element(".account").should(have.text())
 
 def test_1():
     print(browser.config._get_base_url_on_open_with_no_args)
