@@ -15,9 +15,9 @@ class LoginPage(BasePage):
     PAGE_URL = 'login'
 
     def login(self, email, password):
-        browser.element("#userName").type(email)
+        browser.element("#login_field").type(email)
         browser.element("#password").type(password)
-        browser.element(by.id("login")).click()
+        browser.element(by.name("commit")).press_enter()
         return self
 
     def assert_error_message(self, text):

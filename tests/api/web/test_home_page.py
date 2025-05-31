@@ -1,7 +1,7 @@
 from selene import browser
 from selenium import webdriver
 from pages.application import app
-from pages.workspace_home_page import WorkspaceHomePage
+from pages.main_page import HomePage
 
 def test_workspace_change_name():
     app.workspace_home_page.open()

@@ -17,14 +17,14 @@ class UserData(BaseSettings):
     password : str
     username : str
     base_url : str
-    trello_token : str
+    git_token : str
 
     class Config:
         env_file = PROJECT_ROOT / ".env.local"
         env_prefix = "USER_DATA_"
 
 class TestSettings(BaseSettings):
-    base_url: str = "https://demo.com"
+    base_url: str = "https://github.com/"
     headless: bool = True
 
 user_data = UserData()
