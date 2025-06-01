@@ -31,7 +31,7 @@ class TestDataFactory:
             json.dump(data, f, indent=2)
 
     @staticmethod
-    def generate_all_test_data():
+    def generate_all_test_data(save_data=False):
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
         data = {
@@ -41,7 +41,7 @@ class TestDataFactory:
                 'faker_seed': Faker.seed(42)
             }
         }
-
-        TestDataFactory.save_to_file(data, filename=f'test_data_{timestamp}.json')
+        if save_data:
+            TestDataFactory.save_to_file(data, filename=f'test_data_{timestamp}.json')
 
         return data

@@ -1,4 +1,3 @@
-from utils.utils_pages.utils_account import login_ui
 from pages.application import app
 from configs.settings import user_data
 
@@ -18,4 +17,3 @@ def test_create_repository(random_repository_data):
     )
     app.create_repository_page.create_repository_button.click()
 
-    # login_ui(user_data.email, user_data.password)

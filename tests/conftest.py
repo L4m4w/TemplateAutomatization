@@ -6,7 +6,7 @@ from utils.utils_data.test_data_factory import TestDataFactory
 
 @pytest.fixture(scope='session')
 def test_data():
-    return TestDataFactory.generate_all_test_data()
+    return TestDataFactory.generate_all_test_data(save_data=False)
 
 @pytest.fixture()
 def random_repository_data(test_data):
