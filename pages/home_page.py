@@ -12,7 +12,9 @@ class HomePage(BasePage):
         def create_repository_sidebar_button(self):
             return browser.element(by.text("Create repository"))
 
-        
+    create_repository = CreateRepository()
+
+
 
     @property
     def edit_workspace_name_button(self):
