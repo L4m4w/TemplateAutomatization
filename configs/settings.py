@@ -18,6 +18,7 @@ class UserData(BaseSettings):
     username : str
     base_url : str
     git_token : str
+    token: str
 
     class Config:
         env_file = PROJECT_ROOT / ".env.local"
