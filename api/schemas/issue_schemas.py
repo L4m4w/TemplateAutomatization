@@ -1,4 +1,4 @@
-ISSUE_SCHEMA = {
+GET_ISSUE_SCHEMA = {
   "title": "Issue",
   "description": "Issues are a great way to keep track of tasks, enhancements, and bugs for your projects.",
   "type": "object",

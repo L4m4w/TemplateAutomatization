@@ -1,6 +1,8 @@
 import pytest
 from pydantic import ValidationError
+from jsonschema import validate
 
+from api.schemas.issue_schemas import GET_ISSUE_SCHEMA
 from api.services.issues import IssueService
 from api.models.Issue_models import IssueResponse
 from configs.settings import user_data
@@ -10,7 +12,7 @@ def issue_service():
     return IssueService(token=user_data.git_token)
 
 @pytest.fixture
-def get_issue_data():
+def issue_request_data():
     return {
         "repo_owner": user_data.username,
         "repo_name": user_data.repository_name,
@@ -44,14 +46,14 @@ def test_get_issue(issue_number, expected_state):
     assert issue["title"] == "IIII"
     assert issue["user"]["login"] == user_data.username
 
-def test_get_issue_response_model(issue_service, get_issue_data):
+def test_get_issue_response_model(issue_service, issue_request_data):
     """
     Тест проверяет:
-    1. Ответ API соответствует модели IssueResponse.
+    - Ответ API соответствует модели IssueResponse.
     Ожидается прохождение проверки типов полей.
     """
 
-    issue = issue_service.get_issue(**get_issue_data)
+    issue = issue_service.get_issue(**issue_request_data)
 
     # try:
     #     model = IssueResponse(**issue)
@@ -61,10 +63,16 @@ def test_get_issue_response_model(issue_service, get_issue_data):
     validated_issue = IssueResponse(**issue)
     assert isinstance(validated_issue, IssueResponse)
 
+def test_get_issue_response_schema(issue_service, issue_request_data):
+    issue = issue_service.get_issue(**issue_request_data)
+
+    validate(issue, schema=GET_ISSUE_SCHEMA)
+
+
 def test_invalid_issue_response():
     """
     Тест проверяет:
-    Ответ API в случае передачи 1 обязательного поля вместо 27.
+    - Ответ API в случае передачи 1 обязательного поля вместо 27.
     Ожидается получение ошибки валидации.
     """
     invalid_data = {"title": 123}  # Невалидные данные (title должен быть строкой)
