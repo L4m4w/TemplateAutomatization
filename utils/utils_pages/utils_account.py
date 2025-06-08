@@ -50,7 +50,8 @@ def get_auth_cookie(acc_login: str, acc_password: str):
 
     driver.quit()
 
-    return session_cookie[0]
+    return cookies
+    # return session_cookie
 
 
 
