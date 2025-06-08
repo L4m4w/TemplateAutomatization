@@ -16,6 +16,7 @@ def browser_management():
     # browser.config.base_url = "https://trello.com/"
     browser.config.base_url = "https://github.com/"
 
+
     browser.config.driver = webdriver.Chrome()
 
     yield

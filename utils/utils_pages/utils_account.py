@@ -3,7 +3,12 @@ import allure
 from curlify import to_curl
 import json
 import logging
-from selene import browser, have
+from selene import browser, have, by
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from pages.application import app
 from configs.settings import user_data
@@ -18,6 +23,37 @@ def get_cookie_api(acc_login: str, acc_password: str) -> str:
     allure.attach(body=response.cookies.get("NOPCOMMERCE.AUTH"), attachment_type=allure.attachment_type.TEXT, extension='txt')
     allure.attach(body=curl, attachment_type=allure.attachment_type.TEXT, extension='txt')
     return response.cookies.get("NOPCOMMERCE.AUTH")
+
+def get_auth_cookie(acc_login: str, acc_password: str):
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Опционально: без GUI
+    chrome_options.add_argument("--disable-gpu")
+
+    driver = webdriver.Chrome(options=chrome_options)
+
+    driver.get("https://github.com/login")
+
+    # Логинимся (пример)
+    driver.find_element("id", "login_field").send_keys(acc_login)
+    driver.find_element("id", "password").send_keys(acc_password)
+    driver.find_element("name", "commit").click()
+
+    # Получаем все куки
+    cookies = driver.get_cookies()
+    # print("Куки после авторизации:", cookies)
+    session_cookie = list()
+    # Ищем конкретную куку (например, session)
+    for cookie in cookies:
+        if "session" in cookie["name"]:
+            session_cookie.append(cookie["value"])
+            # print("Кука сессии:", cookie["value"])
+
+    driver.quit()
+
+    return session_cookie[0]
+
+
+
 
 @allure.step("Authorize")
 def login_ui(acc_login: str, acc_password: str):

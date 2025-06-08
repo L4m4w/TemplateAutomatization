@@ -38,7 +38,7 @@ GET_ISSUE_SCHEMA = {
       "format": "uri"
     },
     "number": {
-      "description": "Number uniquely identifying the issue within its repository",
+      "description": "Number uniquely identifying the issue within its pull_requests",
       "type": "integer",
       "examples": [
         42
@@ -260,7 +260,7 @@ GET_ISSUE_SCHEMA = {
       ]
     },
     "labels": {
-      "description": "Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository",
+      "description": "Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the pull_requests",
       "type": "array",
       "items": {
         "oneOf": [
@@ -1306,13 +1306,13 @@ GET_ISSUE_SCHEMA = {
         "description"
       ]
     },
-    "repository": {
+    "pull_requests": {
       "title": "Repository",
-      "description": "A repository on GitHub.",
+      "description": "A pull_requests on GitHub.",
       "type": "object",
       "properties": {
         "id": {
-          "description": "Unique identifier of the repository",
+          "description": "Unique identifier of the pull_requests",
           "type": "integer",
           "format": "int64",
           "examples": [
@@ -1326,7 +1326,7 @@ GET_ISSUE_SCHEMA = {
           ]
         },
         "name": {
-          "description": "The name of the repository.",
+          "description": "The name of the pull_requests.",
           "type": "string",
           "examples": [
             "Team Environment"
@@ -1597,7 +1597,7 @@ GET_ISSUE_SCHEMA = {
           ]
         },
         "private": {
-          "description": "Whether the repository is private or public.",
+          "description": "Whether the pull_requests is private or public.",
           "default": False,
           "type": "boolean"
         },
@@ -1926,14 +1926,14 @@ GET_ISSUE_SCHEMA = {
           ]
         },
         "size": {
-          "description": "The size of the repository, in kilobytes. Size is calculated hourly. When a repository is initially created, the size is 0.",
+          "description": "The size of the pull_requests, in kilobytes. Size is calculated hourly. When a pull_requests is initially created, the size is 0.",
           "type": "integer",
           "examples": [
             108
           ]
         },
         "default_branch": {
-          "description": "The default branch of the repository.",
+          "description": "The default branch of the pull_requests.",
           "type": "string",
           "examples": [
             "master"
@@ -1946,7 +1946,7 @@ GET_ISSUE_SCHEMA = {
           ]
         },
         "is_template": {
-          "description": "Whether this repository acts as a template that can be used to generate new repositories.",
+          "description": "Whether this pull_requests acts as a template that can be used to generate new repositories.",
           "default": False,
           "type": "boolean",
           "examples": [
@@ -2004,16 +2004,16 @@ GET_ISSUE_SCHEMA = {
           ]
         },
         "archived": {
-          "description": "Whether the repository is archived.",
+          "description": "Whether the pull_requests is archived.",
           "default": False,
           "type": "boolean"
         },
         "disabled": {
           "type": "boolean",
-          "description": "Returns whether or not this repository disabled."
+          "description": "Returns whether or not this pull_requests disabled."
         },
         "visibility": {
-          "description": "The repository visibility: public, private, or internal.",
+          "description": "The pull_requests visibility: public, private, or internal.",
           "default": "public",
           "type": "string"
         },
@@ -2164,11 +2164,11 @@ GET_ISSUE_SCHEMA = {
         },
         "anonymous_access_enabled": {
           "type": "boolean",
-          "description": "Whether anonymous git access is enabled for this repository"
+          "description": "Whether anonymous git access is enabled for this pull_requests"
         },
         "code_search_index_status": {
           "type": "object",
-          "description": "The status of the code search index for this repository",
+          "description": "The status of the code search index for this pull_requests",
           "properties": {
             "lexical_search_ok": {
               "type": "boolean"
@@ -2687,7 +2687,7 @@ GET_ISSUE_SCHEMA = {
     "author_association": {
       "title": "author_association",
       "type": "string",
-      "description": "How the author is associated with the repository.",
+      "description": "How the author is associated with the pull_requests.",
       "enum": [
         "COLLABORATOR",
         "CONTRIBUTOR",

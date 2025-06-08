@@ -10,7 +10,7 @@ class HomePage(BasePage):
 
         @property
         def create_repository_sidebar_button(self):
-            return browser.element(by.text("Create repository"))
+            return browser.element(by.text("Create pull_requests"))
 
     create_repository = CreateRepository()
 

@@ -21,7 +21,10 @@ class LoginPage(BasePage):
         return self
 
     def assert_error_message(self, text):
-        browser.element("#error").should(be.visible).should(have.text(text))
+        browser.element(".flash-error").should(be.visible).should(have.text(text))
+
+    def check_login_status(self, login: bool):
+        browser.element(".dashboard").should(be.visible if login else be.not_.visible)
 
     class EmailLogin:
 
