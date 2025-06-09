@@ -13,7 +13,10 @@ class BranchPage(BasePage):
 
     def create_new_branch(self):
         self.new_branch_button.click()
-        self.new_branch_name_field.send_keys('master')
+        input_field = self.new_branch_name_field
+        input_field.should(be.visible.and_(be.enabled))
+        input_field.click()
+        input_field.send_keys('321')
         self.create_new_branch_button.click()
 
     @property
@@ -22,4 +25,8 @@ class BranchPage(BasePage):
 
     @property
     def create_new_branch_button(self):
-        return browser.element('button[class="prc-Button-ButtonBase-c50BI"][aria-describedby=":r3c:-loading-announcement"]')
+        return browser.element('button[class="prc-Button-ButtonBase-c50BI"][data-variant="primary"][aria-describedby*="loading-announcement"]')
+
+    @property
+    def user_branches_table(self):
+        return browser.element('table[aria-labelledby="yours"]')
