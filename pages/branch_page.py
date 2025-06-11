@@ -19,9 +19,14 @@ class BranchPage(BasePage):
         input_field.send_keys('321')
         self.create_new_branch_button.click()
 
+    def error_message_box(self):
+        error_box = browser.element('div[id="flash"]')
+        return error_box.element('.//div')
+
     @property
     def new_branch_name_field(self):
-        return browser.element('input[class="prc-components-Input-Ic-y8"]')
+        form = browser.element('div[class="prc-Dialog-Body-LCvER"]')
+        return form.element('.//input')
 
     @property
     def create_new_branch_button(self):
