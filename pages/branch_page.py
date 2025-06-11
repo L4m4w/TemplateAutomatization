@@ -19,9 +19,20 @@ class BranchPage(BasePage):
         input_field.send_keys('321')
         self.create_new_branch_button.click()
 
+    @property
     def error_message_box(self):
         error_box = browser.element('div[id="flash"]')
         return error_box.element('.//div')
+
+    @property
+    def user_branches_table(self):
+        branch_table = browser.element('table[aria-labelledby="yours"]')
+        # rows = branch_table.all(".//tbody/tr")
+        return branch_table
+
+    def get_user_branch_from_table(self, branch_name):
+        rows = self.user_branches_table.all(".//tbody/tr")
+        return rows.element(f'.//td//div//a//div[title="{branch_name}"]')
 
     @property
     def new_branch_name_field(self):
@@ -32,6 +43,7 @@ class BranchPage(BasePage):
     def create_new_branch_button(self):
         return browser.element('button[class="prc-Button-ButtonBase-c50BI"][data-variant="primary"][aria-describedby*="loading-announcement"]')
 
-    @property
-    def user_branches_table(self):
-        return browser.element('table[aria-labelledby="yours"]')
+    def branch_href_link(self, branch_name):
+        branch = self.get_user_branch_from_table(branch_name)
+        branch_link = branch.element('..//a')
+        return branch_link
