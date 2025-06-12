@@ -30,9 +30,9 @@ class BranchPage(BasePage):
         # rows = branch_table.all(".//tbody/tr")
         return branch_table
 
-    def get_user_branch_from_table(self, branch_name):
+    def get_user_branch_from_table(self):
         rows = self.user_branches_table.all(".//tbody/tr")
-        return rows.element(f'.//td//div//a//div[title="{branch_name}"]')
+        return rows.element(f'.//td//div//a//div[title="321"]')
 
     @property
     def new_branch_name_field(self):
@@ -44,6 +44,7 @@ class BranchPage(BasePage):
         return browser.element('button[class="prc-Button-ButtonBase-c50BI"][data-variant="primary"][aria-describedby*="loading-announcement"]')
 
     def branch_href_link(self, branch_name):
-        branch = self.get_user_branch_from_table(branch_name)
-        branch_link = branch.element('..//a')
+        branch = self.get_user_branch_from_table()
+        branch_link = branch.element('..')
+        branch_link = branch_link.element('a')
         return branch_link
