@@ -20,6 +20,8 @@ class UserData(BaseSettings):
     git_token : str
     token: str
     repository_name: str
+    browserstack_username: str
+    browserstack_access_key: str
 
     class Config:
         env_file = PROJECT_ROOT / ".env.local"
