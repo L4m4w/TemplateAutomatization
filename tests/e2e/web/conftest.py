@@ -8,6 +8,8 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
+from utils.utils_loggers import attach
+
 
 # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
 @pytest.fixture(scope='function', autouse=True)
@@ -20,6 +22,10 @@ def browser_management():
     browser.config.driver = webdriver.Chrome()
 
     yield
+
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
 
     browser.quit()
 
