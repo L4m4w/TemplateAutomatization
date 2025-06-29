@@ -8,9 +8,8 @@ from configs.settings import user_data
 from selenium import webdriver
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='module')
 def mobile_management():
-
     options = UiAutomator2Options().load_capabilities({
         # Specify device and os_version for testing
         "platformName": "android",

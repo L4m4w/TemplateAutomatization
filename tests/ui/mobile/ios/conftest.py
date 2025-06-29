@@ -8,9 +8,8 @@ from selenium import webdriver
 from configs.settings import user_data
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='module')
 def mobile_management():
-
     options = XCUITestOptions().load_capabilities({
         # Specify device and os_version for testing
         "platformName": "ios",

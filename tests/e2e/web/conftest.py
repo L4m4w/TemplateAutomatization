@@ -10,26 +10,51 @@ from webdriver_manager.firefox import GeckoDriverManager
 
 SupportedBrowsers = Literal['chrome', 'firefox']
 
+
+# Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
 @pytest.fixture(scope='function')
-def with_new_browser():
-    future_browsers = []
+def browser_management():
+    browser.config.timeout = 7.0
+    # browser.config.base_url = "https://trello.com/"
+    browser.config.base_url = "https://github.com/"
 
-    def new_browser(name: SupportedBrowsers = 'chrome'):
-        nonlocal future_browsers
-        if name == 'chrome':
-            future_browser = (
-                Browser(Config(driver=webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())))))
-        elif name == 'firefox':
-            future_browser = (
-                Browser(Config(driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install())))))
-        else:
-            raise Exception(f'Browser <<{name}>> is not supported')
 
-        future_browsers.append(future_browser)
+    browser.config.driver = webdriver.Chrome()
+    driver_options = webdriver.ChromeOptions()
+    driver_options.add_argument('--start-maximized')
 
-        return future_browser
+    driver_options.add_argument('--no-sandbox')
+    driver_options.add_argument('--disable-dev-shm-usage')
+    driver_options.add_argument('--incognito')
 
-    yield new_browser
+    yield
+    #
+    # attach.add_screenshot(browser)
+    # attach.add_logs(browser)
+    # attach.add_html(browser)
 
-    for future_browser in future_browsers:
-        future_browser.quit()
+    browser.quit()
+
+# @pytest.fixture(scope='module')
+# def with_new_browser():
+#     future_browsers = []
+#
+#     def new_browser(name: SupportedBrowsers = 'chrome'):
+#         nonlocal future_browsers
+#         if name == 'chrome':
+#             future_browser = (
+#                 Browser(Config(driver=webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())))))
+#         elif name == 'firefox':
+#             future_browser = (
+#                 Browser(Config(driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install())))))
+#         else:
+#             raise Exception(f'Browser <<{name}>> is not supported')
+#
+#         future_browsers.append(future_browser)
+#
+#         return future_browser
+#
+#     yield new_browser
+#
+#     for future_browser in future_browsers:
+#         future_browser.quit()

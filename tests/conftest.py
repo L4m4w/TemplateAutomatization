@@ -15,23 +15,29 @@ def random_repository_data(test_data):
     import random
     return random.choice(test_data['repository_data'])
 
-# Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
-@pytest.fixture(scope='function', autouse=True)
-def browser_management():
-    browser.config.timeout = 7.0
-    # browser.config.base_url = "https://trello.com/"
-    browser.config.base_url = "https://github.com/"
-
-
-    browser.config.driver = webdriver.Chrome()
-
-    yield
-
-    attach.add_screenshot(browser)
-    attach.add_logs(browser)
-    attach.add_html(browser)
-
-    browser.quit()
+# # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
+# @pytest.fixture(scope='function')
+# def browser_management():
+#     browser.config.timeout = 7.0
+#     # browser.config.base_url = "https://trello.com/"
+#     browser.config.base_url = "https://github.com/"
+#
+#
+#     browser.config.driver = webdriver.Chrome()
+#     driver_options = webdriver.ChromeOptions()
+#     driver_options.add_argument('--start-maximized')
+#
+#     driver_options.add_argument('--no-sandbox')
+#     driver_options.add_argument('--disable-dev-shm-usage')
+#     # driver_options.add_argument('--headless')
+#
+#     yield
+#
+#     attach.add_screenshot(browser)
+#     attach.add_logs(browser)
+#     attach.add_html(browser)
+#
+#     browser.quit()
 
 
 # def init_web_driver():

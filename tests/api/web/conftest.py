@@ -3,7 +3,7 @@ from selene import browser
 from selenium.webdriver.firefox.options import Options
 from selenium import webdriver
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='module')
 def browser_management():
     ...
     # browser.config.timeout = 7.0

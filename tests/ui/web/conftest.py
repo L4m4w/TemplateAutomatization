@@ -5,7 +5,7 @@ from selenium import webdriver
 from utils.utils_loggers import attach
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='module')
 def browser_management():
     browser.config.timeout = 7.0
     browser.config.base_url = "https://github.com/"

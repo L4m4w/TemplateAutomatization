@@ -23,35 +23,35 @@ def get_cookie_api(acc_login: str, acc_password: str) -> str:
     allure.attach(body=response.cookies.get("NOPCOMMERCE.AUTH"), attachment_type=allure.attachment_type.TEXT, extension='txt')
     allure.attach(body=curl, attachment_type=allure.attachment_type.TEXT, extension='txt')
     return response.cookies.get("NOPCOMMERCE.AUTH")
-
-def get_auth_cookie(acc_login: str, acc_password: str):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Опционально: без GUI
-    chrome_options.add_argument("--disable-gpu")
-
-    driver = webdriver.Chrome(options=chrome_options)
-
-    driver.get("https://github.com/login")
-
-    # Логинимся (пример)
-    driver.find_element("id", "login_field").send_keys(acc_login)
-    driver.find_element("id", "password").send_keys(acc_password)
-    driver.find_element("name", "commit").click()
-
-    # Получаем все куки
-    cookies = driver.get_cookies()
-    # print("Куки после авторизации:", cookies)
-    session_cookie = list()
-    # Ищем конкретную куку (например, session)
-    for cookie in cookies:
-        if "session" in cookie["name"]:
-            session_cookie.append(cookie["value"])
-            # print("Кука сессии:", cookie["value"])
-
-    driver.quit()
-
-    return cookies
-    # return session_cookie
+#
+# def get_auth_cookie(acc_login: str, acc_password: str):
+#     chrome_options = Options()
+#     chrome_options.add_argument("--headless")  # Опционально: без GUI
+#     chrome_options.add_argument("--disable-gpu")
+#
+#     driver = webdriver.Chrome(options=chrome_options)
+#
+#     driver.get("https://github.com/login")
+#
+#     # Логинимся (пример)
+#     driver.find_element("id", "login_field").send_keys(acc_login)
+#     driver.find_element("id", "password").send_keys(acc_password)
+#     driver.find_element("name", "commit").click()
+#
+#     # Получаем все куки
+#     cookies = driver.get_cookies()
+#     # print("Куки после авторизации:", cookies)
+#     session_cookie = list()
+#     # Ищем конкретную куку (например, session)
+#     for cookie in cookies:
+#         if "session" in cookie["name"]:
+#             session_cookie.append(cookie["value"])
+#             # print("Кука сессии:", cookie["value"])
+#
+#     driver.quit()
+#
+#     return cookies
+#     # return session_cookie
 
 
 
