@@ -1,7 +1,9 @@
 from selene import browser, Config
 from selenium.webdriver import ChromeOptions
 import pytest
+from selenium import webdriver
 
+from utils.utils_loggers import attach
 from utils.utils_data.test_data_factory import TestDataFactory
 
 @pytest.fixture(scope='session')
@@ -12,6 +14,24 @@ def test_data():
 def random_repository_data(test_data):
     import random
     return random.choice(test_data['repository_data'])
+
+# Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
+@pytest.fixture(scope='function', autouse=True)
+def browser_management():
+    browser.config.timeout = 7.0
+    # browser.config.base_url = "https://trello.com/"
+    browser.config.base_url = "https://github.com/"
+
+
+    browser.config.driver = webdriver.Chrome()
+
+    yield
+
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
+
+    browser.quit()
 
 
 # def init_web_driver():
