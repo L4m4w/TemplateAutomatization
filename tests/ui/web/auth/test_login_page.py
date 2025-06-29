@@ -1,11 +1,15 @@
 import os
 import shutil
+from selene import browser
 
 from utils.utils_pages.utils_account import login_ui
 from configs.settings import user_data
 from pages.application import app
 
 def test_successful_login():
+    # browser.quit()
+    # browser.open('https://github.com/')
+
     app.login_page.open()
     app.login_page.login(user_data.email, user_data.password)
     app.login_page.check_login_status(login=True)
