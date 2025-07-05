@@ -10,7 +10,7 @@ from utils.utils_loggers import attach
 def browser_management(request):
     print(request.param)
     browser.config.timeout = 7.0
-    browser.config.base_url = "https://github.com"
+    browser.config.base_url = "https://github.com/"
 
     if request.param['browsers'] == "Chrome":
         driver_options = webdriver.ChromeOptions()
@@ -46,7 +46,7 @@ def mobile_browser_management(request):
         driver_options = webdriver.FirefoxOptions()
     else:
         raise NotImplementedError
-    driver_options.browser_version = '100.0'
+    # driver_options.browser_version = '100.0'
     driver_options.set_capability(
         'selenoid:options',
         {
@@ -59,3 +59,15 @@ def mobile_browser_management(request):
     yield
 
     browser.quit()
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers",
+        "slow: mark test as slow-running"
+    )
+
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     if outcome.get_result().failed:
+#         browser.driver.save_screenshot(f"fail_{item.name}.png")

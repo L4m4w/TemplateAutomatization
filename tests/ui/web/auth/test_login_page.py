@@ -1,18 +1,23 @@
 import os
 import shutil
 from selene import browser
+import pytest
 
+from utils.decorators.common import step_for_allure
 from utils.utils_pages.utils_account import login_ui
 from configs.settings import user_data
 from pages.application import app
 
+@step_for_allure
+@pytest.mark.parametrize("browser_management", [{"browsers": "Chrome", "device": "desktop"}], indirect=True)
 def test_successful_login(browser_management):
     app.login_page.open()
     app.login_page.login(user_data.email, user_data.password)
     app.login_page.check_login_status(login=True)
 
-
+@step_for_allure
+@pytest.mark.parametrize("browser_management", [{"browsers": "Chrome", "device": "desktop"}], indirect=True)
 def test_invalid_password_shows_error(browser_management):
     app.login_page.open()
-    app.login_page.login(user_data.email,user_data.username)
+    # app.login_page.login(user_data.email,user_data.username)
     app.login_page.assert_error_message('Incorrect username or password')

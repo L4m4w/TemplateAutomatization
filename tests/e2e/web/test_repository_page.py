@@ -1,6 +1,8 @@
+import pytest
 from pages.application import app
 from configs.settings import user_data
 
+@pytest.mark.slow
 def test_create_repository(random_repository_data):
     app.login_page.open()
     app.login_page.login(user_data.email, user_data.password)

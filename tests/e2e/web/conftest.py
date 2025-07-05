@@ -91,3 +91,15 @@ def mobile_browser_management(request):
     yield
 
     browser.quit()
+
+def pytest_configure(config):
+    config.addinivalue_line(
+        "markers",
+        "slow: mark test as slow-running"
+    )
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    if outcome.get_result().failed:
+        browser.driver.save_screenshot(f"fail_{item.name}.png")
