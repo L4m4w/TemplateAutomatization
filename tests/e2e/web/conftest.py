@@ -1,3 +1,6 @@
+import time
+
+import allure
 import pytest
 from typing import Literal
 from selene.support.shared import browser
@@ -13,12 +16,36 @@ from utils.utils_loggers import attach
 SupportedBrowsers = Literal['chrome', 'firefox']
 
 
+def pytest_addoption(parser):
+    parser.addoption(
+        "--env",
+        action="store",
+        default="prod",
+        choices=["prod", "stage", "dev"],
+        help="Set test environment: prod, stage, dev"
+    )
+
+@pytest.fixture(scope='session')
+def env(request):
+    return request.config.getoption("--env")
+
+@pytest.fixture(scope='session')
+def base_url(env):
+    env_urls = {
+        'prod': 'https://github.com/',
+        'stage': 'https://stage-github.com/',
+        'dev': 'https://dev-github.com/'
+    }
+    url = env_urls[env]
+    allure.dynamic.link(url, name=f"{env} environment")
+    return url
+
+
 # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
 @pytest.fixture(scope='session', autouse=True, params=["Chrome", "Firefox"])
-def browser_management(request):
+def browser_management(request, base_url):
     browser.config.timeout = 7.0
-    # browser.config.base_url = "https://trello.com/"
-    browser.config.base_url = "https://github.com/"
+    browser.config.base_url = base_url
 
     if request.param == "Chrome":
         browser.config.driver = webdriver.Chrome()
@@ -92,14 +119,25 @@ def mobile_browser_management(request):
 
     browser.quit()
 
+def pytest_sessionstart(session):
+    env = session.config.getoption("--env")
+    allure.dynamic.label("environment", env)
+
+def pytest_runtest_setup(item):
+    item.start_time = time.time()
+
+def pytest_runtest_teardown(item, nextitem):
+    duration = time.time() - item.start_time
+    print(f"\nТест {item.name} выполнялся {duration:.2f} сек")
+
 def pytest_configure(config):
     config.addinivalue_line(
         "markers",
-        "slow: mark test as slow-running"
+        "slow: тесты, которые выполняются долго (mark as @pytest.mark.slow)"
     )
-
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    if outcome.get_result().failed:
-        browser.driver.save_screenshot(f"fail_{item.name}.png")
+#
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     if outcome.get_result().failed:
+#         browser.driver.save_screenshot(f"fail_{item.name}.png")

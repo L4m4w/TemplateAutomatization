@@ -1,16 +1,42 @@
+import time
+
+import allure
 import pytest
 from selene.support.shared import browser
 from selenium import webdriver
 
 from utils.utils_loggers import attach
 
+def pytest_addoption(parser):
+    parser.addoption(
+        "--env",
+        action="store",
+        default="prod",
+        choices=["prod", "stage", "dev"],
+        help="Set test environment: prod, stage, dev"
+    )
+
+@pytest.fixture(scope='session')
+def env(request):
+    return request.config.getoption("--env")
+
+@pytest.fixture(scope='session')
+def base_url(env):
+    env_urls = {
+        'prod': 'https://github.com/',
+        'stage': 'https://stage-github.com/',
+        'dev': 'https://dev-github.com/'
+    }
+    url = env_urls[env]
+    allure.dynamic.link(url, name=f"{env} environment")
+    return url
+
 @pytest.fixture(scope='session')
 @pytest.mark.parametrize("browsers", ["Chrome", "Firefox"])
 @pytest.mark.parametrize("device", ["desktop", "mobile"])
-def browser_management(request):
-    print(request.param)
+def browser_management(request, base_url):
     browser.config.timeout = 7.0
-    browser.config.base_url = "https://github.com/"
+    browser.config.base_url = base_url
 
     if request.param['browsers'] == "Chrome":
         driver_options = webdriver.ChromeOptions()
@@ -37,33 +63,18 @@ def browser_management(request):
 
     browser.quit()
 
-@pytest.fixture(scope='function', params=["Chrome", "Firefox"])
-def mobile_browser_management(request):
-    browser.config.base_url = 'https://github.com'
-    if request.param == "Chrome":
-        driver_options = webdriver.ChromeOptions()
-    elif request.param == "Firefox":
-        driver_options = webdriver.FirefoxOptions()
-    else:
-        raise NotImplementedError
-    # driver_options.browser_version = '100.0'
-    driver_options.set_capability(
-        'selenoid:options',
-        {
-            'screenResolution': '448x858x24'
-        },
-    )
 
-    browser.config.driver_options = driver_options
+def pytest_runtest_setup(item):
+    item.start_time = time.time()
 
-    yield
-
-    browser.quit()
+def pytest_runtest_teardown(item, nextitem):
+    duration = time.time() - item.start_time
+    print(f"\nТест {item.name} выполнялся {duration:.2f} сек")
 
 def pytest_configure(config):
     config.addinivalue_line(
         "markers",
-        "slow: mark test as slow-running"
+        "slow: тесты, которые выполняются долго (mark as @pytest.mark.slow)"
     )
 
 # @pytest.hookimpl(tryfirst=True, hookwrapper=True)
