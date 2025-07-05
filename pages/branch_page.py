@@ -1,3 +1,4 @@
+import allure
 from selene import by, be, browser
 
 from pages.base_page import BasePage
@@ -12,12 +13,13 @@ class BranchPage(BasePage):
         return browser.element('button[class="prc-Button-ButtonBase-c50BI ml-3"]')
 
     def create_new_branch(self):
-        self.new_branch_button.click()
-        input_field = self.new_branch_name_field
-        input_field.should(be.visible.and_(be.enabled))
-        input_field.click()
-        input_field.send_keys('321')
-        self.create_new_branch_button.click()
+        with allure.step("Create new branch"):
+            self.new_branch_button.click()
+            input_field = self.new_branch_name_field
+            input_field.should(be.visible.and_(be.enabled))
+            input_field.click()
+            input_field.send_keys('321')
+            self.create_new_branch_button.click()
 
     @property
     def error_message_box(self):

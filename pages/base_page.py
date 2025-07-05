@@ -1,3 +1,4 @@
+import allure
 from selene import browser, have
 from abc import ABC, abstractmethod
 
@@ -9,9 +10,11 @@ class BasePage(ABC):
         ...
 
     def open(self):
-        browser.open(self.PAGE_URL)
-        return self
+        with allure.step("Open page: " + self.PAGE_URL):
+            browser.open(self.PAGE_URL)
+            return self
 
+    @allure.step("Preparing cookies")
     def with_cookies(self, cookies):
         browser.open('https://github.com')
 
