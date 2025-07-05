@@ -8,11 +8,13 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 
+from utils.utils_loggers import attach
+
 SupportedBrowsers = Literal['chrome', 'firefox']
 
 
 # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='module')
 def browser_management():
     browser.config.timeout = 7.0
     # browser.config.base_url = "https://trello.com/"
@@ -23,38 +25,41 @@ def browser_management():
     driver_options = webdriver.ChromeOptions()
     driver_options.add_argument('--start-maximized')
 
+    driver_options.add_argument("--remote-debugging-port=9222")
+
+
     driver_options.add_argument('--no-sandbox')
     driver_options.add_argument('--disable-dev-shm-usage')
     driver_options.add_argument('--incognito')
 
     yield
-    #
-    # attach.add_screenshot(browser)
-    # attach.add_logs(browser)
-    # attach.add_html(browser)
+
+    attach.add_screenshot(browser)
+    attach.add_logs(browser)
+    attach.add_html(browser)
 
     browser.quit()
 
-# @pytest.fixture(scope='module')
-# def with_new_browser():
-#     future_browsers = []
-#
-#     def new_browser(name: SupportedBrowsers = 'chrome'):
-#         nonlocal future_browsers
-#         if name == 'chrome':
-#             future_browser = (
-#                 Browser(Config(driver=webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())))))
-#         elif name == 'firefox':
-#             future_browser = (
-#                 Browser(Config(driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install())))))
-#         else:
-#             raise Exception(f'Browser <<{name}>> is not supported')
-#
-#         future_browsers.append(future_browser)
-#
-#         return future_browser
-#
-#     yield new_browser
-#
-#     for future_browser in future_browsers:
-#         future_browser.quit()
+@pytest.fixture(scope='module')
+def with_new_browser():
+    future_browsers = []
+
+    def new_browser(name: SupportedBrowsers = 'chrome'):
+        nonlocal future_browsers
+        if name == 'chrome':
+            future_browser = (
+                Browser(Config(driver=webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())))))
+        elif name == 'firefox':
+            future_browser = (
+                Browser(Config(driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install())))))
+        else:
+            raise Exception(f'Browser <<{name}>> is not supported')
+
+        future_browsers.append(future_browser)
+
+        return future_browser
+
+    yield new_browser
+
+    for future_browser in future_browsers:
+        future_browser.quit()
