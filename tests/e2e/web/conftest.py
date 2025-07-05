@@ -14,19 +14,24 @@ SupportedBrowsers = Literal['chrome', 'firefox']
 
 
 # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
-@pytest.fixture(scope='module')
-def browser_management():
+@pytest.fixture(scope='session', autouse=True, params=["Chrome", "Firefox"])
+def browser_management(request):
     browser.config.timeout = 7.0
     # browser.config.base_url = "https://trello.com/"
     browser.config.base_url = "https://github.com/"
 
+    if request.param == "Chrome":
+        browser.config.driver = webdriver.Chrome()
+        driver_options = webdriver.ChromeOptions()
+    elif request.param == "Firefox":
+        browser.config.driver = webdriver.Firefox()
+        driver_options = webdriver.FirefoxOptions()
+    else:
+        raise NotImplementedError
 
-    browser.config.driver = webdriver.Chrome()
-    driver_options = webdriver.ChromeOptions()
+
     driver_options.add_argument('--start-maximized')
-
     driver_options.add_argument("--remote-debugging-port=9222")
-
 
     driver_options.add_argument('--no-sandbox')
     driver_options.add_argument('--disable-dev-shm-usage')
@@ -63,3 +68,26 @@ def with_new_browser():
 
     for future_browser in future_browsers:
         future_browser.quit()
+
+@pytest.fixture(scope='function', autouse=True, params=["Chrome", "Firefox"])
+def mobile_browser_management(request):
+    browser.config.base_url = 'https://github.com'
+    if request.param == "Chrome":
+        driver_options = webdriver.ChromeOptions()
+    elif request.param == "Firefox":
+        driver_options = webdriver.FirefoxOptions()
+    else:
+        raise NotImplementedError
+    driver_options.browser_version = '100.0'
+    driver_options.set_capability(
+        'selenoid:options',
+        {
+            'screenResolution': '448x858x24'
+        },
+    )
+
+    browser.config.driver_options = driver_options
+
+    yield
+
+    browser.quit()
