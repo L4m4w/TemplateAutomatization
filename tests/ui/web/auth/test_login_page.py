@@ -45,5 +45,5 @@ Test check:
 @pytest.mark.parametrize("browser_management", [{"browsers": "Chrome", "device": "desktop"}], indirect=True)
 def test_invalid_password_shows_error(browser_management):
     app.login_page.open()
-    # app.login_page.login(user_data.email,user_data.username)
+    app.login_page.login(user_data.email,user_data.username)
     app.login_page.assert_error_message('Incorrect username or password')

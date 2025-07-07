@@ -1,3 +1,4 @@
+import allure
 from selene import browser, Config
 from selenium.webdriver import ChromeOptions
 import pytest
@@ -15,55 +16,27 @@ def random_repository_data(test_data):
     import random
     return random.choice(test_data['repository_data'])
 
-# # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
-# @pytest.fixture(scope='function')
-# def browser_management():
-#     browser.config.timeout = 7.0
-#     # browser.config.base_url = "https://trello.com/"
-#     browser.config.base_url = "https://github.com/"
-#
-#
-#     browser.config.driver = webdriver.Chrome()
-#     driver_options = webdriver.ChromeOptions()
-#     driver_options.add_argument('--start-maximized')
-#
-#     driver_options.add_argument('--no-sandbox')
-#     driver_options.add_argument('--disable-dev-shm-usage')
-#     # driver_options.add_argument('--headless')
-#
-#     yield
-#
-#     attach.add_screenshot(browser)
-#     attach.add_logs(browser)
-#     attach.add_html(browser)
-#
-#     browser.quit()
 
+def pytest_addoption(parser):
+    parser.addoption(
+        "--env",
+        action="store",
+        default="prod",
+        choices=["prod", "stage", "dev"],
+        help="Set test environment: prod, stage, dev"
+    )
 
-# def init_web_driver():
-#     options = ChromeOptions()
-#     options.add_argument("--headless")  # Для CI
-#     browser.set_driver(Config(
-#         driver_options=options,
-#         timeout=10,
-#         base_url="https://trello.com/"
-#     ))
+@pytest.fixture(scope='session')
+def env(request):
+    return request.config.getoption("--env")
 
-# def init_android_driver():
-#     pass
-
-
-# def pytest_addoption(parser):
-#     parser.addoption("--platform", action="store", default="web")
-#
-# @pytest.fixture(scope='session')
-# def platform(request):
-#     return request.config.getoption("--platform")
-#
-# @pytest.fixture
-# def driver(platform):
-#     if platform == "web":
-#         yield init_web_driver()
-#     elif platform == "android":
-#         yield init_android_driver()
-
+@pytest.fixture(scope='session')
+def base_url(env):
+    env_urls = {
+        'prod': 'https://github.com/',
+        'stage': 'https://stage-github.com/',
+        'dev': 'https://dev-github.com/'
+    }
+    url = env_urls[env]
+    allure.dynamic.link(url, name=f"{env} environment")
+    return url

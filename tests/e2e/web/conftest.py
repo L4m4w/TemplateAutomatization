@@ -16,29 +16,7 @@ from utils.utils_loggers import attach
 SupportedBrowsers = Literal['chrome', 'firefox']
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--env",
-        action="store",
-        default="prod",
-        choices=["prod", "stage", "dev"],
-        help="Set test environment: prod, stage, dev"
-    )
 
-@pytest.fixture(scope='session')
-def env(request):
-    return request.config.getoption("--env")
-
-@pytest.fixture(scope='session')
-def base_url(env):
-    env_urls = {
-        'prod': 'https://github.com/',
-        'stage': 'https://stage-github.com/',
-        'dev': 'https://dev-github.com/'
-    }
-    url = env_urls[env]
-    allure.dynamic.link(url, name=f"{env} environment")
-    return url
 
 
 # Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
