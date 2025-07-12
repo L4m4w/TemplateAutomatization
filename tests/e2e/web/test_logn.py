@@ -8,9 +8,13 @@ from tests.e2e.web.conftest import SupportedBrowsers
 
 
 class TestLogin:
-    @pytest.mark.platform("web")
+    # @pytest.mark.platform("web")
+
     # @pytest.mark.platform("mobile")
-    def test_something(self, with_new_browser: Callable[[SupportedBrowsers], Browser] | Callable[..., Browser]):
+
+    @staticmethod
+    # @pytest.mark.parametrize("browser_management", ["Chrome"], indirect=True)
+    def test_something(with_new_browser: Callable[[SupportedBrowsers], Browser] | Callable[..., Browser]):
         browser.open('https://gfgf')
         browser.element('#new-todo').should(be.blank).type('a').press_enter()
 

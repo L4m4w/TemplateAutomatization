@@ -19,16 +19,21 @@ SupportedBrowsers = Literal['chrome', 'firefox']
 
 
 
-# Автоматически запускается для всех функций, которые лежат в той же директории, что и конфтест
-@pytest.fixture(scope='session', autouse=True, params=["Chrome", "Firefox"])
+# Автоматически запускается для всех функций, которые лежат в той же директории, что и@pytest.mark.parametrize("browser_management", ["Chrome"], indirect=True) конфтест
+@pytest.fixture(scope='session', params=["Chrome", "Firefox"])
 def browser_management(request, base_url):
     browser.config.timeout = 7.0
     browser.config.base_url = base_url
 
     if request.param == "Chrome":
         browser.config.driver = webdriver.Chrome()
+        print(browser.driver.capabilities['browserVersion'])
         driver_options = webdriver.ChromeOptions()
-        # driver_options.add_argument("--remote-debugging-port=9222")
+        driver_options.add_argument("--remote-debugging-port=9223")
+        driver_options.add_argument("--no-sandbox")  # Обязательно для CI
+        driver_options.add_argument("--disable-dev-shm-usage")  # Решает проблему с /dev/shm
+        driver_options.add_argument("--headless=new")  # Новый headless-режим (Chrome 112+)
+        driver_options.add_argument("--disable-gpu")
 
     elif request.param == "Firefox":
         browser.config.driver = webdriver.Firefox()
@@ -37,12 +42,13 @@ def browser_management(request, base_url):
         raise NotImplementedError
 
 
-    driver_options.add_argument('--start-maximized')
+    # driver_options.add_argument('--start-maximized')
     # driver_options.add_argument("--remote-debugging-port=9222")
+      # Для старых версий Chrome
 
-    driver_options.add_argument('--no-sandbox')
-    driver_options.add_argument('--disable-dev-shm-usage')
-    driver_options.add_argument('--incognito')
+    # driver_options.add_argument('--no-sandbox')
+    # driver_options.add_argument('--disable-dev-shm-usage')
+    # driver_options.add_argument('--incognito')
 
     yield
 
@@ -56,12 +62,12 @@ def browser_management(request, base_url):
 def with_new_browser():
     future_browsers = []
 
-    def new_browser(name: SupportedBrowsers = 'chrome'):
+    def new_browser(name: SupportedBrowsers = 'Chrome'):
         nonlocal future_browsers
-        if name == 'chrome':
+        if name == 'Chrome':
             future_browser = (
                 Browser(Config(driver=webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())))))
-        elif name == 'firefox':
+        elif name == 'Firefox':
             future_browser = (
                 Browser(Config(driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install())))))
         else:

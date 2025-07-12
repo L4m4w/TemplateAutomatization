@@ -7,7 +7,7 @@ from selene import browser
 import pytest
 
 from utils.decorators.common import step_for_allure
-from utils.utils_pages.utils_account import login_ui
+# from utils.utils_pages.utils_account import login_ui
 from configs.settings import user_data
 from pages.application import app
 

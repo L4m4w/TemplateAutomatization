@@ -24,7 +24,7 @@ class UserData(BaseSettings):
     browserstack_access_key: str = Field(..., alias="USER_DATA_BROWSERSTACK_ACCESS_KEY")
 
     class Config:
-        env_file = PROJECT_ROOT / ".env.local" if Path(".env.local").exists() else None
+        env_file = PROJECT_ROOT / ".env.local" if Path(PROJECT_ROOT / ".env.local").exists() else None
         env_prefix = "USER_DATA_"
 
 class TestSettings(BaseSettings):
