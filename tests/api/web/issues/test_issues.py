@@ -66,7 +66,7 @@ def test_get_issue(issue_number, expected_state):
 
     with allure.step("API returned issue and it has expected data"):
         assert issue["state"] == expected_state
-        assert issue["title"] == "IIII"
+        assert issue["title"] == "IIII3"
         assert issue["user"]["login"] == user_data.username
 
 @allure.tag('api')

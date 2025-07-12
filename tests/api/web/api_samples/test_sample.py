@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 import pytest
 
-chrome_only = pytest.mark.parametrize("browser", ["Chrome"], indirect=True)
+# chrome_only = pytest.mark.parametrize("browser", ["Chrome"], indirect=True)
 
-@chrome_only
-def test_chrome_extension(browser):
+# @chrome_only
+def test_chrome_extension():
     pass
 
 @dataclass

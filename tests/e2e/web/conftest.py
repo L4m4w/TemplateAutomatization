@@ -28,6 +28,8 @@ def browser_management(request, base_url):
     if request.param == "Chrome":
         browser.config.driver = webdriver.Chrome()
         driver_options = webdriver.ChromeOptions()
+        # driver_options.add_argument("--remote-debugging-port=9222")
+
     elif request.param == "Firefox":
         browser.config.driver = webdriver.Firefox()
         driver_options = webdriver.FirefoxOptions()
@@ -36,7 +38,7 @@ def browser_management(request, base_url):
 
 
     driver_options.add_argument('--start-maximized')
-    driver_options.add_argument("--remote-debugging-port=9222")
+    # driver_options.add_argument("--remote-debugging-port=9222")
 
     driver_options.add_argument('--no-sandbox')
     driver_options.add_argument('--disable-dev-shm-usage')

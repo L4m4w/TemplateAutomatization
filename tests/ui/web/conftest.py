@@ -18,7 +18,7 @@ def browser_management(request, base_url):
 
     if request.param['browsers'] == "Chrome":
         driver_options = webdriver.ChromeOptions()
-        driver_options.add_argument("--remote-debugging-port=9222")
+        # driver_options.add_argument("--remote-debugging-port=9222")
     elif request.param['browsers'] == "Firefox":
         driver_options = webdriver.FirefoxOptions()
     else:
