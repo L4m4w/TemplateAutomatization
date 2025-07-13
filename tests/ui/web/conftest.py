@@ -17,21 +17,37 @@ def browser_management(request, base_url):
     browser.config.base_url = base_url
 
     if request.param['browsers'] == "Chrome":
-        driver_options = webdriver.ChromeOptions()
-        driver_options.add_argument("--remote-debugging-port=9222")
+        # browser.config.driver = webdriver.Chrome()
+        # driver_options = webdriver.ChromeOptions()
+        # driver_options.add_argument("--remote-debugging-port=9222")
+        options = webdriver.ChromeOptions()
+        # options.add_argument('--headless=new')
+        # additional options:
+        options.add_argument("--remote-debugging-port=9222")
+
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-notifications')
+        options.add_argument('--disable-extensions')
+        options.add_argument('--disable-infobars')
+        options.add_argument('--enable-automation')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--disable-setuid-sandbox')
+        browser.config.driver_options = options
     elif request.param['browsers'] == "Firefox":
-        driver_options = webdriver.FirefoxOptions()
+        browser.config.driver = webdriver.Firefox()
+        options = webdriver.FirefoxOptions()
     else:
         raise NotImplementedError
 
     if request.param['device'] == "desktop":
-        driver_options.add_argument("--window-size=1920,1080")
+        options.add_argument("--window-size=1920,1080")
     elif request.param['device'] == "mobile":
-        driver_options.add_argument("--window-size=600,800")
+        options.add_argument("--window-size=600,800")
     else:
         raise NotImplementedError
 
-    browser.config.driver_options = driver_options
+    browser.config.driver_options = options
 
     yield
 
