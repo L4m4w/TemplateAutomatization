@@ -99,29 +99,29 @@ def with_new_browser():
 
     for future_browser in future_browsers:
         future_browser.quit()
-
-@pytest.fixture(scope='function', autouse=True, params=["Chrome", "Firefox"])
-def mobile_browser_management(request):
-    browser.config.base_url = 'https://github.com'
-    if request.param == "Chrome":
-        driver_options = webdriver.ChromeOptions()
-    elif request.param == "Firefox":
-        driver_options = webdriver.FirefoxOptions()
-    else:
-        raise NotImplementedError
-    driver_options.browser_version = '100.0'
-    driver_options.set_capability(
-        'selenoid:options',
-        {
-            'screenResolution': '448x858x24'
-        },
-    )
-
-    browser.config.driver_options = driver_options
-
-    yield
-
-    browser.quit()
+#
+# @pytest.fixture(scope='function', autouse=True, params=["Chrome", "Firefox"])
+# def mobile_browser_management(request):
+#     browser.config.base_url = 'https://github.com'
+#     if request.param == "Chrome":
+#         driver_options = webdriver.ChromeOptions()
+#     elif request.param == "Firefox":
+#         driver_options = webdriver.FirefoxOptions()
+#     else:
+#         raise NotImplementedError
+#     driver_options.browser_version = '100.0'
+#     driver_options.set_capability(
+#         'selenoid:options',
+#         {
+#             'screenResolution': '448x858x24'
+#         },
+#     )
+#
+#     browser.config.driver_options = driver_options
+#
+#     yield
+#
+#     browser.quit()
 
 def pytest_sessionstart(session):
     env = session.config.getoption("--env")
