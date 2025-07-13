@@ -1,7 +1,8 @@
 import allure
 import pytest
 from allure_commons.types import Severity
-from selene import browser, by, be
+from selene import by, be
+from selene.support.shared import browser
 from selenium import webdriver
 from utils.decorators.common import step_for_allure
 from utils.decorators.ui import screenshot_on_failure

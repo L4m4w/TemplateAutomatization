@@ -1,7 +1,8 @@
 import allure
 import pytest
 from allure_commons.types import Severity
-from selene import browser, be, have
+from selene import be, have
+from selene.support.shared import browser
 
 from configs.settings import user_data
 from pages.application import app

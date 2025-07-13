@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import requests
 import allure
 from curlify import to_curl
@@ -24,13 +26,27 @@ def get_cookie_api(acc_login: str, acc_password: str) -> str:
     allure.attach(body=curl, attachment_type=allure.attachment_type.TEXT, extension='txt')
     return response.cookies.get("NOPCOMMERCE.AUTH")
 
+@allure.step("Get auth cookie")
 def get_auth_cookie(acc_login: str, acc_password: str):
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--remote-debugging-port=9223")
     chrome_options.add_argument("--disable-gpu")
 
-    driver = webdriver.Chrome(options=chrome_options)
+    # driver = webdriver.Chrome(options=chrome_options)
+    selenoid_capabilities = {
+        "browserName": 'chrome',
+        "selenoid:options": {
+        }
+    }
+
+    host = '127.0.0.1' if Path(PROJECT_ROOT / ".env.local").exists() else 'selenoid'
+
+    chrome_options.capabilities.update(selenoid_capabilities)
+    driver = webdriver.Remote(
+        command_executor=f"http://{host}:4444/wd/hub",
+        options=chrome_options
+    )
 
     driver.get("https://github.com/login")
 
@@ -52,7 +68,15 @@ def get_auth_cookie(acc_login: str, acc_password: str):
     return cookies
     # return session_cookie
 
+def find_project_root():
+    current = Path(__file__).parent
+    while not (current / ".git").exists() and not (current / "pyproject.toml").exists():
+        if current.parent == current:
+            return Path.cwd()
+        current = current.parent
+    return current
 
+PROJECT_ROOT = find_project_root()
 
 
 @allure.step("Authorize")

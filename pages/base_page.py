@@ -1,5 +1,6 @@
 import allure
-from selene import browser, have
+from selene import have
+from selene.support.shared import browser
 from abc import ABC, abstractmethod
 
 
