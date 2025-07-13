@@ -2,15 +2,8 @@ from pydantic import SecretStr, Field
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
-def find_project_root():
-    current = Path(__file__).parent
-    while not (current / ".git").exists() and not (current / "pyproject.toml").exists():
-        if current.parent == current:
-            return Path.cwd()
-        current = current.parent
-    return current
+from utils.utils_data.helpers import PROJECT_ROOT
 
-PROJECT_ROOT = find_project_root()
 
 class UserData(BaseSettings):
     email : str = Field(..., alias="USER_DATA_EMAIL")

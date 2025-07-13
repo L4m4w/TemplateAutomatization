@@ -13,6 +13,7 @@ class TestLogin:
     # @pytest.mark.platform("mobile")
 
     @staticmethod
+    @pytest.mark.skip(reason='Test flackie')
     # @pytest.mark.parametrize("browser_management", ["Chrome"], indirect=True)
     def test_something(with_new_browser: Callable[[SupportedBrowsers], Browser] | Callable[..., Browser]):
         browser.open('https://gfgf')

@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 
 from utils.utils_loggers import attach
-
+from utils.utils_data.helpers import PROJECT_ROOT
 
 
 @pytest.fixture(scope='function')
@@ -64,16 +64,6 @@ def browser_management(request, base_url):
     attach.add_html(browser)
 
     browser.quit()
-
-def find_project_root():
-    current = Path(__file__).parent
-    while not (current / ".git").exists() and not (current / "pyproject.toml").exists():
-        if current.parent == current:
-            return Path.cwd()
-        current = current.parent
-    return current
-
-PROJECT_ROOT = find_project_root()
 
 def pytest_runtest_setup(item):
     item.start_time = time.time()

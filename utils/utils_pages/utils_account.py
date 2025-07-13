@@ -13,6 +13,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from pages.application import app
+from utils.utils_data.helpers import PROJECT_ROOT
+
 from configs.settings import user_data
 
 BASE_URL = 'https://github.com/'
@@ -67,16 +69,6 @@ def get_auth_cookie(acc_login: str, acc_password: str):
 
     return cookies
     # return session_cookie
-
-def find_project_root():
-    current = Path(__file__).parent
-    while not (current / ".git").exists() and not (current / "pyproject.toml").exists():
-        if current.parent == current:
-            return Path.cwd()
-        current = current.parent
-    return current
-
-PROJECT_ROOT = find_project_root()
 
 
 @allure.step("Authorize")

@@ -1,4 +1,5 @@
 import time
+from pathlib import Path
 
 import allure
 import pytest
@@ -10,50 +11,67 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.options import Options
+
 
 from utils.utils_loggers import attach
+from utils.utils_data.helpers import PROJECT_ROOT
+
 
 SupportedBrowsers = Literal['chrome', 'firefox']
 
 
-
-
-
-# Автоматически запускается для всех функций, которые лежат в той же директории, что и@pytest.mark.parametrize("browser_management", ["Chrome"], indirect=True) конфтест
-@pytest.fixture(scope='session', params=["Chrome", "Firefox"])
+@pytest.fixture(scope='function')
+@pytest.mark.parametrize("browsers", ["Chrome", "Firefox"])
+@pytest.mark.parametrize("device", ["desktop", "mobile"])
 def browser_management(request, base_url):
     browser.config.timeout = 7.0
     browser.config.base_url = base_url
 
-    if request.param == "Chrome":
-        browser.config.driver = webdriver.Chrome()
-        print(browser.driver.capabilities['browserVersion'])
-        driver_options = webdriver.ChromeOptions()
-        driver_options.add_argument("--remote-debugging-port=9223")
-        driver_options.add_argument("--no-sandbox")  # Обязательно для CI
-        driver_options.add_argument("--disable-dev-shm-usage")  # Решает проблему с /dev/shm
-        driver_options.add_argument("--headless=new")  # Новый headless-режим (Chrome 112+)
-        driver_options.add_argument("--disable-gpu")
-
-    elif request.param == "Firefox":
-        browser.config.driver = webdriver.Firefox()
-        driver_options = webdriver.FirefoxOptions()
+    if request.param['browsers'] == "Chrome":
+       browser_name = 'chrome'
+       browser_version = '123.0'
+    elif request.param['browsers'] == "Firefox":
+        browser_name = 'firefox'
+        browser_version = '123.0'
     else:
         raise NotImplementedError
 
+    options = Options()
+    selenoid_capabilities = {
+        "browserName": browser_name,
+        "browserVersion": browser_version or None,
+        "selenoid:options": {
+            "enableVNC": True,
+            "enableVideo": True
+        }
+    }
+    if request.param['device'] == "desktop":
+        options.add_argument("--window-size=1920,1080")
+    elif request.param['device'] == "mobile":
+        options.add_argument("--window-size=600,800")
+    else:
+        raise NotImplementedError
 
-    # driver_options.add_argument('--start-maximized')
-    # driver_options.add_argument("--remote-debugging-port=9222")
-      # Для старых версий Chrome
+    host = '127.0.0.1' if Path(PROJECT_ROOT / ".env.local").exists() else 'selenoid'
 
-    # driver_options.add_argument('--no-sandbox')
-    # driver_options.add_argument('--disable-dev-shm-usage')
-    # driver_options.add_argument('--incognito')
+    options.capabilities.update(selenoid_capabilities)
+    driver = webdriver.Remote(
+        command_executor=f"http://{host}:4444/wd/hub",
+        options=options
+    )
 
-    yield
+    browser.config.driver = driver
+
+
+
+    browser.config.options = options
+    # browser.driver.get_log()
+
+    yield browser
 
     attach.add_screenshot(browser)
-    attach.add_logs(browser)
+    # attach.add_logs(browser)
     attach.add_html(browser)
 
     browser.quit()
