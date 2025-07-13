@@ -1,126 +1,119 @@
-UI https://trello.com/
-API https://developer.atlassian.com/cloud/trello/
 
-# Проект по тестированию сервиса электронных и аудиокниг [Литрес](https://www.litres.ru")</h1>
+# Automatization framework to test Github servise 
 
+<h3>Implemented Test Cases:</h3>
+UI Tests web/ mobile platforms:
 
-![This is an image]([resources/images/ui/main_page_litres.png](https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40sameerhussayn%2Fwhat-is-git-and-github-7ca22640d06f&psig=AOvVaw3rtGf-ZxW344HduJP8Cp1h&ust=1752522827992000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOi1k7jOuo4DFQAAAAAdAAAAABAE))
+- [x]    Graphical user interface functionality (buttons, forms);
+- [x]    Layout and element rendering;
+- [x]    Client-side logic (e.g., field validation);
 
-<h3> Список проверок, реализованных в автотестах:</h3>
+E2E Tests web platform:
+- [x]    User scenaries of repository create;
+- [x]    User scenaries of pull request create/ get/ update/ delete;
 
-### UI-тесты
+API Tests web platform:
+- [x]    Issues CRUD operations;
+- [x]    Data model and scheme validtion tests;
 
-- [x] Авторизация пользователя на сайте(успешная и неуспешная)
-- [x] Поиск книги(успешный и неуспешный)
-- [x] Регистрация нового пользователя на сайте(успешная и неуспешная)
-- [x] Проверка отображения страницы о компании
+Project implemented using:
 
-### Проект реализован с использованием:
+**Frameworks:**
+  - Pytest
+  - Selenium
+  - Selene
+  - Appium
+  - Allure
+  - pydantic
+  - Faker
 
-<img src="resources/images/logo/python.svg" width="50"> <img src="resources/images/logo/pytest.png" width="50"> <img src="resources/images/logo/pycharm.png" width="50"> <img src="resources/images/logo/selene.png" width="50"> <img src="resources/images/logo/selenoid.png" width="50"> <img src="resources/images/logo/jenkins.png" width="50"> <img src="resources/images/logo/Allure.svg" width="50"> <img src="resources/images/logo/Allure_TO.svg" width="50"> <img src="resources/images/logo/telegram.svg" width="50"> <img src="resources/images/logo/jira.svg" width="50">
+**Instruments:**
+  - Jenkins
+  - Allure Testops
+  - Selenoid
+  - Selenoid-UI
+  - BrowserStack
+  - Docker
 
-----
+Local Setup
 
-### Локальный запуск
+    Clone the repository to your local machine using git clone
 
-1. Клонируйте репозиторий на свой локальный компьютер при помощи git clone
-2. Создайте и активируйте виртуальное окружение
+    Create and activate a virtual environment
 
-  ```bash
-  python -m venv .venv
-  source .venv/bin/activate
-  ```
+bash
 
-3. Установите зависимости с помощью pip
+python -m venv .venv  
+source .venv/bin/activate  # Linux/macOS  
+.\.venv\Scripts\activate   # Windows  
 
-  ```bash
-  pip install -r requirements.txt
-  ```
+    Install dependencies using pip
 
-4. Для запусков тестов локально используйте команды:
+bash
 
-  ```bash
-  pytest .
-  ```
+pip install -r requirements.txt  
 
-Получение отчёта allure:
+    To run tests locally, use:
 
-```bash
-allure serve allure-results
-```
+bash
 
-----
+pytest .  
 
-### Удаленный запуск автотестов выполняется на сервере Jenkins
+Generate Allure report:
+bash
 
-> <a target="_blank" href="https://jenkins.autotests.cloud/job/litres-project/">Ссылка на проект в Jenkins</a>
+allure serve allure-results  
 
-### Параметры сборки
-Данные параметры не обязательны для заполнения.
+Remote Execution via Jenkins
 
-* `ENVIRONMENT` - параметр определяет окружение для запуска тестов, по умолчанию DEV
-* `COMMENT` - комментарий к сборке
-* `BROWSER_NAME` - выбор браузера для запуска тестов, по умолчанию chrome
-* `BROWSER_VERSION` - выбор версии браузера для запуска тестов, по умолчанию 100.0
+    <a target="_blank" href="https://jenkins.autotests.cloud/job/litres-project/">Jenkins project link</a>
 
-![This is an image](resources/images/ui/jenkins_run.PNG)
+Build Parameters
 
-### Запуск автотестов в Jenkins
+These parameters are optional:
 
-#### 1. Открыть <a target="_blank" href="https://jenkins.autotests.cloud/job/litres-project/">проект</a>
+    ENVIRONMENT - defines the test environment (default: DEV)
 
-![This is an image](resources/images/ui/jenkins.PNG)
+    COMMENT - build comment
 
-#### 2. Выбрать пункт **Build with Parameters**
+    BROWSER_NAME - browser for test execution (default: chrome)
 
-#### 3. Внести изменения в конфигурации сборки, при необходимости
+    BROWSER_VERSION - browser version (default: 100.0)
 
-#### 4. Нажать **Build**
+https://resources/images/ui/jenkins_run.PNG
+Running Tests in Jenkins
+1. Open the <a target="_blank" href="https://jenkins.autotests.cloud/job/litres-project/">project</a>
 
-#### 5. Результат запуска сборки можно посмотреть в классическом формате Allure Results
+https://resources/images/ui/jenkins.PNG
+2. Select Build with Parameters
+3. Modify build configuration if needed
+4. Click Build
+5. View results in Allure Report format
+Allure Report
+Overview
 
-----
+https://resources/images/ui/allure.PNG
+Allure TestOps Integration
 
-### Allure отчет
+    <a target="_blank" href="https://allure.autotests.cloud/project/4083/dashboards">AllureTestOps project link</a> (access request: admin@qa.guru)
 
-#### Общие результаты
+List of all test cases
 
-![This is an image](resources/images/ui/allure.PNG)
+https://resources/images/ui/allure_testops.PNG
+Test run results
 
-----
+https://resources/images/ui/testops.PNG
+Jira Integration
 
-### Интеграция с Allure TestOps
+    <a target="_blank" href="https://jira.autotests.cloud/browse/HOMEWORK-1128">Jira project link</a>
 
-> <a target="_blank" href="https://allure.autotests.cloud/project/4083/dashboards">Ссылка на проект в
-> AllureTestOps</a> (запрос доступа `admin@qa.guru`)
+https://resources/images/ui/jira.png
+Telegram Notifications
 
-#### Список всех кейсов, имеющихся в проекте
+https://resources/images/ui/telegram.PNG
+Sample Test Execution Video
 
-![This is an image](resources/images/ui/allure_testops.PNG)
-
-#### Отображение результатов прогона тестов
-
-![This is an image](resources/images/ui/testops.PNG)
-
-----
-
-### Интеграция с Jira
-
-> <a target="_blank" href="https://jira.autotests.cloud/browse/HOMEWORK-1128">Ссылка на проект в Jira</a>
-
-![This is an image](resources/images/ui/jira.png)
-
-----
-
-### Оповещение о результатах прогона тестов в Telegram
-
-![This is an image](resources/images/ui/telegram.PNG)
-
-----
-
-### Пример видео прохождения автотеста
-
-![autotest_gif](resources/images/ui/video.gif)
+https://resources/images/ui/video.gif
 
 TO-DO
 [] Устойчивые локаторы
