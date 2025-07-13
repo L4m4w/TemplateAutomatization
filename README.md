@@ -4,7 +4,7 @@ API https://developer.atlassian.com/cloud/trello/
 # Проект по тестированию сервиса электронных и аудиокниг [Литрес](https://www.litres.ru")</h1>
 
 
-![This is an image](resources/images/ui/main_page_litres.png)
+![This is an image]([resources/images/ui/main_page_litres.png](https://www.google.com/url?sa=i&url=https%3A%2F%2Fmedium.com%2F%40sameerhussayn%2Fwhat-is-git-and-github-7ca22640d06f&psig=AOvVaw3rtGf-ZxW344HduJP8Cp1h&ust=1752522827992000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOi1k7jOuo4DFQAAAAAdAAAAABAE))
 
 <h3> Список проверок, реализованных в автотестах:</h3>
 
