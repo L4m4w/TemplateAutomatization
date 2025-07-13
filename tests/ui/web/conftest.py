@@ -1,4 +1,5 @@
 import time
+from pathlib import Path
 
 import allure
 import pytest
@@ -35,9 +36,12 @@ def browser_management(request, base_url):
             "enableVideo": True
         }
     }
+
+    host = '127.0.0.1' if Path(PROJECT_ROOT / ".env.local").exists() else 'selenoid'
+
     options.capabilities.update(selenoid_capabilities)
     driver = webdriver.Remote(
-        command_executor=f"http://127.0.0.1:4444/wd/hub",
+        command_executor=f"http://{host}:4444/wd/hub",
         options=options
     )
 
@@ -61,6 +65,15 @@ def browser_management(request, base_url):
 
     browser.quit()
 
+def find_project_root():
+    current = Path(__file__).parent
+    while not (current / ".git").exists() and not (current / "pyproject.toml").exists():
+        if current.parent == current:
+            return Path.cwd()
+        current = current.parent
+    return current
+
+PROJECT_ROOT = find_project_root()
 
 def pytest_runtest_setup(item):
     item.start_time = time.time()
