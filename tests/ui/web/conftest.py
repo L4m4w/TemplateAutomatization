@@ -55,12 +55,12 @@ def browser_management(request, base_url):
         raise NotImplementedError
 
     browser.config.options = options
-    # browser.driver.get_
+    # browser.driver.get_log()
 
     yield browser
 
     attach.add_screenshot(browser)
-    attach.add_logs(browser)
+    # attach.add_logs(browser)
     attach.add_html(browser)
 
     browser.quit()
