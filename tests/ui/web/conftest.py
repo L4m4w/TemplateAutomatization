@@ -64,9 +64,9 @@ def browser_management(request, base_url):
     else:
         raise NotImplementedError
 
-    browser.config.driver_options = options
+    browser.config.options = options
 
-    yield
+    yield browser
 
     attach.add_screenshot(browser)
     attach.add_logs(browser)
