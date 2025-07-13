@@ -3,6 +3,7 @@ import time
 import allure
 import pytest
 from selene.support.shared import browser
+from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 
 from utils.utils_loggers import attach
@@ -20,20 +21,36 @@ def browser_management(request, base_url):
         # browser.config.driver = webdriver.Chrome()
         # driver_options = webdriver.ChromeOptions()
         # driver_options.add_argument("--remote-debugging-port=9222")
-        options = webdriver.ChromeOptions()
+        # options = webdriver.ChromeOptions()
         # options.add_argument('--headless=new')
         # additional options:
-        options.add_argument("--remote-debugging-port=9222")
+        # options.add_argument("--remote-debugging-port=9222")
 
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-gpu')
-        options.add_argument('--disable-notifications')
-        options.add_argument('--disable-extensions')
-        options.add_argument('--disable-infobars')
-        options.add_argument('--enable-automation')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--disable-setuid-sandbox')
-        browser.config.driver_options = options
+        # options.add_argument('--no-sandbox')
+        # options.add_argument('--disable-gpu')
+        # options.add_argument('--disable-notifications')
+        # options.add_argument('--disable-extensions')
+        # options.add_argument('--disable-infobars')
+        # options.add_argument('--enable-automation')
+        # options.add_argument('--disable-dev-shm-usage')
+        # options.add_argument('--disable-setuid-sandbox')
+        # browser.config.driver_options = options
+        options = Options()
+        selenoid_capabilities = {
+            "browserName": "chrome",
+            "browserVersion": "123.0",
+            "selenoid:options": {
+                "enableVNC": True,
+                "enableVideo": True
+            }
+        }
+        options.capabilities.update(selenoid_capabilities)
+        driver = webdriver.Remote(
+            command_executor=f"http://selenoid:4444/wd/hub",
+            options=options
+        )
+
+        browser.config.driver = driver
     elif request.param['browsers'] == "Firefox":
         browser.config.driver = webdriver.Firefox()
         options = webdriver.FirefoxOptions()
