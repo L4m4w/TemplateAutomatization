@@ -16,7 +16,15 @@ API Tests web platform:
 - [x]    Issues CRUD operations;
 - [x]    Data model and scheme validtion tests;
 
-Project implemented using:
+```mermaid
+pie
+    title Test coverage
+    "API tests" : 20
+    "UI tests" : 60
+    "E2E tests" : 20
+```
+
+# Project implemented using:
 
 **Frameworks:**
   - Pytest
@@ -35,101 +43,84 @@ Project implemented using:
   - BrowserStack
   - Docker
 
-Local Setup
+# Archtecture
+```mermaid
+graph TD
+    A[Jenkins] --> B{Github}
+    B --> C[Selenoid]
+    C --> D[Selenoid UI]
+    D --> E[Allure]
+```
 
-    Clone the repository to your local machine using git clone
+# Local Setup
 
-    Create and activate a virtual environment
+1. Clone the repository to your local machine using git clone
+2. Create and activate a virtual environment
 
-bash
+```bash
+  python -m venv .venv
+  source .venv/bin/activate # Linux/macOS  
+  .\.venv\Scripts\activate   # Windows  
+```
 
-python -m venv .venv  
-source .venv/bin/activate  # Linux/macOS  
-.\.venv\Scripts\activate   # Windows  
+3. Install dependencies using pip
 
-    Install dependencies using pip
+```bash
+  pip install -r requirements.txt
+```
 
-bash
+4. To run tests locally, use:
 
-pip install -r requirements.txt  
+```bash
+  pytest .
+```
 
-    To run tests locally, use:
+5. Получение отчёта allure:
 
-bash
+```bash
+allure serve allure-results
+```
 
-pytest .  
+### Remote Execution via Jenkins
 
-Generate Allure report:
-bash
+## Build parameters 
+*(parameters are not required to fill)*
 
-allure serve allure-results  
+* `ENVIRONMENT - defines the test environment (default: DEV)
+* 'COMMENT' - build comment
+* 'BROWSER_NAME' - browser for test execution (default: chrome)
+* 'BROWSER_VERSION' - browser version (default: 100.0)
 
-Remote Execution via Jenkins
-
-    <a target="_blank" href="https://jenkins.autotests.cloud/job/litres-project/">Jenkins project link</a>
-
-Build Parameters
-
-These parameters are optional:
-
-    ENVIRONMENT - defines the test environment (default: DEV)
-
-    COMMENT - build comment
-
-    BROWSER_NAME - browser for test execution (default: chrome)
-
-    BROWSER_VERSION - browser version (default: 100.0)
-
-https://resources/images/ui/jenkins_run.PNG
-Running Tests in Jenkins
-1. Open the <a target="_blank" href="https://jenkins.autotests.cloud/job/litres-project/">project</a>
-
-https://resources/images/ui/jenkins.PNG
+    
+## Running Tests in Jenkins
+1. Open the project
 2. Select Build with Parameters
 3. Modify build configuration if needed
 4. Click Build
-5. View results in Allure Report format
+5. While tests are executing you can view this process in Selenoid UI
+![Selenoid overview](https://github.com/L4m4w/workin_stuff/blob/master/TemplteAutomatization/Screenshot%20from%202025-07-19%2014-39-00.png)
+6. View results in Allure Report format
 Allure Report
 Overview
-
-https://resources/images/ui/allure.PNG
-Allure TestOps Integration
-
-    <a target="_blank" href="https://allure.autotests.cloud/project/4083/dashboards">AllureTestOps project link</a> (access request: admin@qa.guru)
-
-List of all test cases
-
-https://resources/images/ui/allure_testops.PNG
-Test run results
-
-https://resources/images/ui/testops.PNG
-Jira Integration
-
-    <a target="_blank" href="https://jira.autotests.cloud/browse/HOMEWORK-1128">Jira project link</a>
-
-https://resources/images/ui/jira.png
-Telegram Notifications
-
-https://resources/images/ui/telegram.PNG
-Sample Test Execution Video
-
-https://resources/images/ui/video.gif
+![Allure overview](https://github.com/L4m4w/workin_stuff/blob/master/TemplteAutomatization/Screenshot%20from%202025-07-19%2014-35-59.png)
+7. Also you can watch test execution records in Selenoid UI
+![Selenoid overview](https://github.com/L4m4w/workin_stuff/blob/master/TemplteAutomatization/Screenshot%20from%202025-07-19%2014-37-43.png)
 
 TO-DO
-[] Устойчивые локаторы
-[] Ленивые элементы с улучшенным описанием для лучших отчетов
-[] Паттерн "Wait for" для более стабильных тестов
-[] Кастомные условия ожидания - расширение встроенных expected conditions
-[//]: # ([] Абстрактный класс для пагеобжект)
-[] Интеграция с Sentry для логирования ошибок
-[] Проксирование запросов для анализа сетевой активности
-[//]: # ([] Генерация тестовых данных на лету с помощью Faker)
-[] Тестирование в разных ориентациях экрана
-[] Интеграция с BrowserStack/Sauce Labs для облачного тестирования
+- [x] Устойчивые локаторы
+- [] Ленивые элементы с улучшенным описанием для лучших отчетов
+- [x] Паттерн "Wait for" для более стабильных тестов
+- [] Кастомные условия ожидания - расширение встроенных expected conditions
+- [x] Абстрактный класс для пагеобжект
+- [] Интеграция с Sentry для логирования ошибок
+- [] Проксирование запросов для анализа сетевой активности
+- [x] Генерация тестовых данных на лету с помощью Faker
+- [x] Тестирование в разных ориентациях экрана
+- [x] Интеграция с BrowserStack/Sauce Labs для облачного тестирования
 
-[] PYTEST
-pytest-xdist - для параллельного запуска тестов
-pytest-rerunfailures - для перезапуска упавших тестов
-pytest-html - для генерации HTML отчетов
-pytest-allure - для красивых Allure отчетов
-pytest-cov - для проверки покрытия кода тестами
+- [x] PYTEST Advanced features
+| pytest-xdist - для параллельного запуска тестов
+| pytest-rerunfailures - для перезапуска упавших тестов
+| pytest-html - для генерации HTML отчетов
+| pytest-allure - для красивых Allure отчетов
+| pytest-cov - для проверки покрытия кода тестами
